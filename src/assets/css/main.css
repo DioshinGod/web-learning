@@ -3,4 +3,26 @@
     padding: 0;
     margin: 0;
 
+
 }
+
+body {
+    font-family: monospace;
+    color: var(--colorTexto);
+}
+a {
+    text-decoration: none;
+    color: inherit;
+
+}
+:root {
+    --colorOpaco: #1c1b22;
+    --colorTexto: #6e6464;
+    --colorTexto2: #1da5a5;
+    
+}
+.bgOpaco {background-color: var(--colorOpaco);}
+
+.coTexto {color: var(--colorTexto);}
+.coTexto2 {color: var(--colorTexto2);}
+.bTexto {border: 1px solid var(--colorTexto);}

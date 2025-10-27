@@ -14,8 +14,21 @@
 .aiC {
     align-items: center;
 }
-.glem {
+.g0_5em {
+    gap: 0.5em;
+}
+.g0_25em {
+    gap: 0.25em;
+}
+.g1em {
     gap: 1em;
+    
+
+}
+
+.gtc6fr {
+    grid-template-columns: repeat(6,1fr);
+
 }
 .w100vw {
     width: 100vw;
@@ -31,3 +44,19 @@
 .h100pc {
     height: 100%;
 }
+.w2em {
+    width: 2em;
+}
+.h2em {
+    height: 2em;
+}
+.h3em {
+    height: 3em;
+
+}
+.dpG {
+    display: grid;
+}
+
+
+

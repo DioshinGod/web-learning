@@ -8,7 +8,7 @@ function App() {
 
 
   return (
-    <div className='dpF fdC v100vw h100vh'>
+    <div className='dpF fdC v100vw h100vh bgOpaco'>
       <Header />
       <div className='h100pc w100pc'>
         <Outlet />
