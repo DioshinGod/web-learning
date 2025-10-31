@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import { useFetcher } from "react-router-dom"
 
 
 
@@ -39,10 +38,10 @@ export const PlaraxView = () => {
 
                 const nuevasCeldas = [...celdas]
                 nuevasCeldas[index] = letra
-                setState({
-                    ...state,
+                setState((prev)=>({
+                    ...prev,
                     celdas: nuevasCeldas
-                })
+                }))
             }
             // si se presiona Borrar 
             if (event.key === 'Backspace') {
@@ -50,10 +49,10 @@ export const PlaraxView = () => {
                 if (index === 0) return
                 const nuevasCeldas = [...celdas]
                 nuevasCeldas[index - 1] = ''
-                setState({
-                    ...state,
+                setState((prev)=>({
+                    ...prev,
                     celdas: nuevasCeldas
-                })
+                }))
 
             }
 
@@ -69,38 +68,42 @@ export const PlaraxView = () => {
         if (palabraCompletada) {
             const nuevosAciertos = [...aciertos]
             const pcArray = palabraCorrecta.split('')
+            const letras = celdas.filter(c => c !== '')
+            const nLetras = letras.length -6
+            const ultimos6 = letras.slice(-6)
+    
             // revisar solo coincidencias exactas
-            celdas.forEach((char, index) => {
+            ultimos6.forEach((char, index) => {
                 if (char === '') return
                 const letraCorrecta = pcArray[index % 6]
 
                 if (char === letraCorrecta) {
                     pcArray[index] = ''
-                    nuevosAciertos[index] = '💘'
+                    nuevosAciertos[index + nLetras] = '💘'
                 }
             })
             // revisar existencias
-            celdas.forEach((char, index) => {
+            ultimos6.forEach((char, index) => {
                 if (char=== '') return
                 // evitar revisar si tiene coincidencias exactas
-                if(nuevosAciertos[index]==='💘') return
+                if(nuevosAciertos[index + nLetras]==='💘') return
                 //si existe
                 if (pcArray.includes(char)) {
                     //buscar el indice del array 
                     const i = pcArray.findIndex((letra)=>char === letra)
                     pcArray[i] = ''
-                    nuevosAciertos[index] = '💔'
+                    nuevosAciertos[index + nLetras] = '💔'
                 }
                 else(
-                    nuevosAciertos[index] = '💜'
+                    nuevosAciertos[index +nLetras] = '💜'
                 )
 
             })
 
-            setState({
-                ...state,
+            setState((prev)=>({
+                ...prev,
                 aciertos: nuevosAciertos
-            })
+            }))
         }
     }, [palabraCompletada])
     return (
