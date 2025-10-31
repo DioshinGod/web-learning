@@ -57,6 +57,12 @@
 .dpG {
     display: grid;
 }
-
-
+/* colores */
+.coWhite{
+    color: white;
+}
+/* fonts */
+.fwB{
+    font-weight: bold;
+}
 

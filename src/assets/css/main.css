@@ -10,19 +10,44 @@ body {
     font-family: monospace;
     color: var(--colorTexto);
 }
+
 a {
     text-decoration: none;
     color: inherit;
 
 }
+
 :root {
     --colorOpaco: #1c1b22;
     --colorTexto: #6e6464;
     --colorTexto2: #1da5a5;
-    
-}
-.bgOpaco {background-color: var(--colorOpaco);}
+    --colorGreen: #0bc521;
+    --colorYellow: #f2d21a;
+    --colorGray: #7f7f87;
 
-.coTexto {color: var(--colorTexto);}
-.coTexto2 {color: var(--colorTexto2);}
-.bTexto {border: 1px solid var(--colorTexto);}
+
+}
+
+.bgOpaco {
+    background-color: var(--colorOpaco);
+}
+.bgGreen {
+    background-color: var(--colorGreen);
+}
+.bgYellow {
+    background-color: var(--colorYellow);
+}
+.bgGray{
+    background-color: var(--colorGray);
+}
+.coTexto {
+    color: var(--colorTexto);
+}
+
+.coTexto2 {
+    color: var(--colorTexto2);
+}
+
+.bTexto {
+    border: 1px solid var(--colorTexto);
+}
