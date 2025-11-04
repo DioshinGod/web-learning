@@ -22,10 +22,26 @@
 }
 .g1em {
     gap: 1em;
-    
+}
+.bgA{
+    background-color: aqua;
 
 }
-
+.bgI{
+    background-color: indigo;
+    
+}
+.bgSG{
+    background-color: springgreen;
+    
+}
+.bgP{
+    background-color: peru;
+    
+}
+.bgB{
+    background-color: black;
+}
 .gtc6fr {
     grid-template-columns: repeat(6,1fr);
 
@@ -65,4 +81,16 @@
 .fwB{
     font-weight: bold;
 }
+.posF{
+    position: fixed;
+}
+.T0{
+    top: 0;
 
+}
+.br0_5em {
+    border-radius: 0.5em;
+}
+.pd1em {
+    padding: 1em;
+}

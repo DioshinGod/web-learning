@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react"
 
+import { WinPop } from "./popups/WinPop"
+import { FailPop } from "./popups/FailPop"
+
 
 
 const palabraCorrecta = "FIERRO"
@@ -26,8 +29,8 @@ export const PlaraxView = () => {
     const { celdas, aciertos } = state
     const nLetras = celdas.filter((char) => char !== '').length
     const palabraCompletada = nLetras % 6 === 0
-    const nCeldasVacias = celdas.filter((char)=> char==='').length
-    const nAciertosVacios = aciertos.filter((char)=> char==='').length
+    const nCeldasVacias = celdas.filter((char) => char === '').length
+    const nAciertosVacios = aciertos.filter((char) => char === '').length
     const estaRevisada = nAciertosVacios === nCeldasVacias
     console.log(nCeldasVacias, nAciertosVacios, estaRevisada)
 
@@ -62,7 +65,7 @@ export const PlaraxView = () => {
             // revisar cuando la palabra este completa
             if (event.key === 'Enter' && nLetras > 0 && palabraCompletada) {
                 console.log('hhh')
-                revisarPalabra ()
+                revisarPalabra()
             }
         }
         window.addEventListener('keydown', handleKeyDown)
@@ -113,50 +116,6 @@ export const PlaraxView = () => {
         }))
     }
 
-
-    // revisar una palabra completa 
-    // useEffect(() => {
-    //     if (palabraCompletada) {
-    //         const nuevosAciertos = [...aciertos]
-    //         const pcArray = palabraCorrecta.split('')
-    //         const letras = celdas.filter(c => c !== '')
-    //         const nLetras = letras.length -6
-    //         const ultimos6 = letras.slice(-6)
-
-    //         // revisar solo coincidencias exactas
-    //         ultimos6.forEach((char, index) => {
-    //             if (char === '') return
-    //             const letraCorrecta = pcArray[index % 6]
-
-    //             if (char === letraCorrecta) {
-    //                 pcArray[index] = ''
-    //                 nuevosAciertos[index + nLetras] = '💘'
-    //             }
-    //         })
-    //         // revisar existencias
-    //         ultimos6.forEach((char, index) => {
-    //             if (char=== '') return
-    //             // evitar revisar si tiene coincidencias exactas
-    //             if(nuevosAciertos[index + nLetras]==='💘') return
-    //             //si existe
-    //             if (pcArray.includes(char)) {
-    //                 //buscar el indice del array 
-    //                 const i = pcArray.findIndex((letra)=>char === letra)
-    //                 pcArray[i] = ''
-    //                 nuevosAciertos[index + nLetras] = '💔'
-    //             }
-    //             else(
-    //                 nuevosAciertos[index +nLetras] = '💜'
-    //             )
-
-    //         })
-
-    //         setState((prev)=>({
-    //             ...prev,
-    //             aciertos: nuevosAciertos
-    //         }))
-    //     }
-    // }, [palabraCompletada])
     return (
         <div className="dpF fdC aiC jcC g1em">
             <h1> Plarax</h1>
@@ -164,7 +123,8 @@ export const PlaraxView = () => {
                 {celdas.map((letra, index) => <Celda key={index} letra={letra} acierto={aciertos[index]} />)}
 
             </div>
-
+            <FailPop/>
+            <WinPop/>
         </div>
 
     )
