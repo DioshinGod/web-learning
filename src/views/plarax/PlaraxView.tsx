@@ -26,86 +26,137 @@ export const PlaraxView = () => {
     const { celdas, aciertos } = state
     const nLetras = celdas.filter((char) => char !== '').length
     const palabraCompletada = nLetras % 6 === 0
-    console.log(aciertos)
+    const nCeldasVacias = celdas.filter((char)=> char==='').length
+    const nAciertosVacios = aciertos.filter((char)=> char==='').length
+    const estaRevisada = nAciertosVacios === nCeldasVacias
+    console.log(nCeldasVacias, nAciertosVacios, estaRevisada)
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
             console.log(event.key)
             const letra = event.key.toUpperCase()
             const esLetra = /^[a-zA-ZñÑ]$/.test(letra);
-            if (esLetra) {
+            if (esLetra && (nLetras === 0 || estaRevisada || !palabraCompletada)) {
                 const index = celdas.findIndex((char) => char === '')
 
                 const nuevasCeldas = [...celdas]
                 nuevasCeldas[index] = letra
-                setState((prev)=>({
+                setState((prev) => ({
                     ...prev,
                     celdas: nuevasCeldas
                 }))
             }
             // si se presiona Borrar 
-            if (event.key === 'Backspace') {
-                const index = celdas.findIndex((char) => char === '')
+            if (event.key === 'Backspace' && nAciertosVacios > nCeldasVacias) {
+                let index = celdas.findIndex((char) => char === '')
                 if (index === 0) return
+                if (index === -1) index = celdas.length
                 const nuevasCeldas = [...celdas]
                 nuevasCeldas[index - 1] = ''
-                setState((prev)=>({
+                setState((prev) => ({
                     ...prev,
                     celdas: nuevasCeldas
                 }))
 
             }
-
+            // revisar cuando la palabra este completa
+            if (event.key === 'Enter' && nLetras > 0 && palabraCompletada) {
+                console.log('hhh')
+                revisarPalabra ()
+            }
         }
         window.addEventListener('keydown', handleKeyDown)
         return () => {
             window.removeEventListener('keydown', handleKeyDown)
         }
 
-    }, [celdas.join('')])
+    }, [celdas.join(''), estaRevisada])
+
+    const revisarPalabra = () => {
+        const nuevosAciertos = [...aciertos]
+        const pcArray = palabraCorrecta.split('')
+        const letras = celdas.filter(c => c !== '')
+        const nLetras = letras.length - 6
+        const ultimos6 = letras.slice(-6)
+
+        // revisar solo coincidencias exactas
+        ultimos6.forEach((char, index) => {
+            if (char === '') return
+            const letraCorrecta = pcArray[index % 6]
+
+            if (char === letraCorrecta) {
+                pcArray[index] = ''
+                nuevosAciertos[index + nLetras] = '💘'
+            }
+        })
+        // revisar existencias
+        ultimos6.forEach((char, index) => {
+            if (char === '') return
+            // evitar revisar si tiene coincidencias exactas
+            if (nuevosAciertos[index + nLetras] === '💘') return
+            //si existe
+            if (pcArray.includes(char)) {
+                //buscar el indice del array 
+                const i = pcArray.findIndex((letra) => char === letra)
+                pcArray[i] = ''
+                nuevosAciertos[index + nLetras] = '💔'
+            }
+            else (
+                nuevosAciertos[index + nLetras] = '💜'
+            )
+
+        })
+
+        setState((prev) => ({
+            ...prev,
+            aciertos: nuevosAciertos
+        }))
+    }
+
+
     // revisar una palabra completa 
-    useEffect(() => {
-        if (palabraCompletada) {
-            const nuevosAciertos = [...aciertos]
-            const pcArray = palabraCorrecta.split('')
-            const letras = celdas.filter(c => c !== '')
-            const nLetras = letras.length -6
-            const ultimos6 = letras.slice(-6)
-    
-            // revisar solo coincidencias exactas
-            ultimos6.forEach((char, index) => {
-                if (char === '') return
-                const letraCorrecta = pcArray[index % 6]
+    // useEffect(() => {
+    //     if (palabraCompletada) {
+    //         const nuevosAciertos = [...aciertos]
+    //         const pcArray = palabraCorrecta.split('')
+    //         const letras = celdas.filter(c => c !== '')
+    //         const nLetras = letras.length -6
+    //         const ultimos6 = letras.slice(-6)
 
-                if (char === letraCorrecta) {
-                    pcArray[index] = ''
-                    nuevosAciertos[index + nLetras] = '💘'
-                }
-            })
-            // revisar existencias
-            ultimos6.forEach((char, index) => {
-                if (char=== '') return
-                // evitar revisar si tiene coincidencias exactas
-                if(nuevosAciertos[index + nLetras]==='💘') return
-                //si existe
-                if (pcArray.includes(char)) {
-                    //buscar el indice del array 
-                    const i = pcArray.findIndex((letra)=>char === letra)
-                    pcArray[i] = ''
-                    nuevosAciertos[index + nLetras] = '💔'
-                }
-                else(
-                    nuevosAciertos[index +nLetras] = '💜'
-                )
+    //         // revisar solo coincidencias exactas
+    //         ultimos6.forEach((char, index) => {
+    //             if (char === '') return
+    //             const letraCorrecta = pcArray[index % 6]
 
-            })
+    //             if (char === letraCorrecta) {
+    //                 pcArray[index] = ''
+    //                 nuevosAciertos[index + nLetras] = '💘'
+    //             }
+    //         })
+    //         // revisar existencias
+    //         ultimos6.forEach((char, index) => {
+    //             if (char=== '') return
+    //             // evitar revisar si tiene coincidencias exactas
+    //             if(nuevosAciertos[index + nLetras]==='💘') return
+    //             //si existe
+    //             if (pcArray.includes(char)) {
+    //                 //buscar el indice del array 
+    //                 const i = pcArray.findIndex((letra)=>char === letra)
+    //                 pcArray[i] = ''
+    //                 nuevosAciertos[index + nLetras] = '💔'
+    //             }
+    //             else(
+    //                 nuevosAciertos[index +nLetras] = '💜'
+    //             )
 
-            setState((prev)=>({
-                ...prev,
-                aciertos: nuevosAciertos
-            }))
-        }
-    }, [palabraCompletada])
+    //         })
+
+    //         setState((prev)=>({
+    //             ...prev,
+    //             aciertos: nuevosAciertos
+    //         }))
+    //     }
+    // }, [palabraCompletada])
     return (
         <div className="dpF fdC aiC jcC g1em">
             <h1> Plarax</h1>
