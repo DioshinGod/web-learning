@@ -5,6 +5,7 @@ import { FailPop } from "./popups/FailPop"
 
 
 
+
 const palabraCorrecta = "FIERRO"
 export const PlaraxView = () => {
     const [state, setState] = useState({
@@ -22,17 +23,23 @@ export const PlaraxView = () => {
             '', '', '', '', '', '',
             '', '', '', '', '', '',
             '', '', '', '', '', '',
-            '', '', '', '', '', ''
-        ]
+            '', '', '', '', '', '',
+        ],
+        popup: ''
     })
 
-    const { celdas, aciertos } = state
+    const { celdas, aciertos, popup} = state
     const nLetras = celdas.filter((char) => char !== '').length
     const palabraCompletada = nLetras % 6 === 0
     const nCeldasVacias = celdas.filter((char) => char === '').length
     const nAciertosVacios = aciertos.filter((char) => char === '').length
     const estaRevisada = nAciertosVacios === nCeldasVacias
-    console.log(nCeldasVacias, nAciertosVacios, estaRevisada)
+    const aciertoNoVacios = aciertos.filter(char=> char !== '')
+    const ultimos6NoVacios = aciertoNoVacios.slice(-6)    
+    const ganaste = ultimos6NoVacios.every(char => char === '💘') && (aciertoNoVacios.length > 0)
+    const perdiste = aciertos.slice(-6).every (char => char !== '') && !ganaste
+    
+    console.log({nCeldasVacias, nAciertosVacios, estaRevisada, ultimos6NoVacios,ganaste,perdiste})
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
@@ -75,6 +82,16 @@ export const PlaraxView = () => {
 
     }, [celdas.join(''), estaRevisada])
 
+    useEffect(()=>{
+        let popup = ''
+        if(ganaste) popup = 'winpop'
+        if(perdiste) popup = 'failpop'
+        setState((prev) => ({
+            ...prev,
+            popup
+        }))
+    },[ganaste,perdiste])
+
     const revisarPalabra = () => {
         const nuevosAciertos = [...aciertos]
         const pcArray = palabraCorrecta.split('')
@@ -115,7 +132,37 @@ export const PlaraxView = () => {
             aciertos: nuevosAciertos
         }))
     }
+    const closePopup =()=>{
+        console.log("dsadfassx")
+        setState((prev) => ({
+            ...prev,
+            popup: ''
+        }))
+    }
 
+    const otraVez =()=>{
+        console.log("dsadfassx")
+        setState((prev) => ({
+            ...prev,
+            celdas: [
+                '', '', '', '', '', '',
+                '', '', '', '', '', '',
+                '', '', '', '', '', '',
+                '', '', '', '', '', '',
+                '', '', '', '', '', '',
+                '', '', '', '', '', ''
+            ],
+            aciertos: [
+                '', '', '', '', '', '',
+                '', '', '', '', '', '',
+                '', '', '', '', '', '',
+                '', '', '', '', '', '',
+                '', '', '', '', '', '',
+                '', '', '', '', '', '',
+            ],
+            popup:''
+        }))
+    }
     return (
         <div className="dpF fdC aiC jcC g1em">
             <h1> Plarax</h1>
@@ -123,8 +170,9 @@ export const PlaraxView = () => {
                 {celdas.map((letra, index) => <Celda key={index} letra={letra} acierto={aciertos[index]} />)}
 
             </div>
-            <FailPop/>
-            <WinPop/>
+            {(ganaste || perdiste) && <button onClick={otraVez}>Jugar De Nuevo</button>}
+            {popup ==='winpop' &&<WinPop onClose={closePopup}/>}
+            {popup ==='failpop' &&<FailPop onClose={closePopup}/>}
         </div>
 
     )

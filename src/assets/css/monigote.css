@@ -84,6 +84,12 @@
 .posF{
     position: fixed;
 }
+.posA{
+    position: absolute;
+}
+.posR{
+    position: relative;
+}
 .T0{
     top: 0;
 
@@ -93,4 +99,7 @@
 }
 .pd1em {
     padding: 1em;
+}
+.cuP{
+    cursor: pointer;
 }
