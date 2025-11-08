@@ -17,6 +17,10 @@ a {
 
 }
 
+button {
+    all: unset;
+}
+
 :root {
     --colorOpaco: #1c1b22;
     --colorTexto: #6e6464;
@@ -24,22 +28,36 @@ a {
     --colorGreen: #0bc521;
     --colorYellow: #f2d21a;
     --colorGray: #7f7f87;
+    --colorSkyblue: #246d87;
+    --colorSkyblue2: #38a7cf;
+    /* --colorSkyblue3:#177874; */
 
+}
 
+.bgSb1 {
+    background-color: var(--colorSkyblue);
+}
+
+.bgSb2 {
+    background-color: var(--colorSkyblue2);
 }
 
 .bgOpaco {
     background-color: var(--colorOpaco);
 }
+
 .bgGreen {
     background-color: var(--colorGreen);
 }
+
 .bgYellow {
     background-color: var(--colorYellow);
 }
-.bgGray{
+
+.bgGray {
     background-color: var(--colorGray);
 }
+
 .coTexto {
     color: var(--colorTexto);
 }
@@ -50,4 +68,8 @@ a {
 
 .bTexto {
     border: 1px solid var(--colorTexto);
+}
+
+.ho-bgSb2:hover{
+    background-color: var(--colorSkyblue2);
 }

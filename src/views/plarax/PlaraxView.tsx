@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 
 import { WinPop } from "./popups/WinPop"
 import { FailPop } from "./popups/FailPop"
+import { Button } from "../../components/button"
 
 
 
@@ -152,7 +153,7 @@ export const PlaraxView = () => {
                 {celdas.map((letra, index) => <Celda key={index} letra={letra} acierto={aciertos[index]} />)}
 
             </div>
-            {(ganaste || perdiste) && <button className = "cuP"onClick={otraVez}>Jugar De Nuevo</button>}
+            {(ganaste || perdiste) && <Button text="Jugar de Nuevo" onClick={otraVez}/>}
             {popup === 'winpop' && <WinPop onClose={closePopup} />}
             {popup === 'failpop' && <FailPop onClose={closePopup} />}
         </div>
