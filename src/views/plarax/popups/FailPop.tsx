@@ -1,13 +1,15 @@
 import { Popup } from "../../../components/Popup"
 
 interface Props {
-    onClose: ()=> void
+    palabraCorrecta: string
+    onClose: () => void
 }
-export const FailPop = ({onClose}:Props) => {
+export const FailPop = ({ onClose, palabraCorrecta }: Props) => {
     return (
         <Popup onClose={onClose}>
             <h3>You lost, kkkkk</h3>
             <p>Poke Derrota Pernahkah kamu bertanya-tanya dari mana asal nama Pokémon? Itu gabungan dari kata "Pocket" dan "Monster", yang jika digabungkan berarti "Monster Saku". Sesederhana itu </p>
+            <p>{palabraCorrecta}</p>
         </Popup>
     )
 }
